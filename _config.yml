@@ -14,15 +14,23 @@ timezone:
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: Chirpy # the main title
+title: My Code Blog
 
-tagline: A text-focused Jekyll theme # it will display as the subtitle
+tagline: Learning by doing        # subtitle shown on the sidebar
 
-description: >- # used by seo meta and the atom feed
-  A minimal, responsive and feature-rich Jekyll theme for technical writing.
+description: >-
+  Code exercises and notes from my learning journey.
 
-# Fill in the protocol & hostname for your site.
-# E.g. 'https://username.github.io', note that it does not end with a '/'.
+url: "https://yourusername.github.io"   # ← your GitHub username
+
+github:
+  username: yourusername          # ← your GitHub username
+
+social:
+  name: Francesco Galazzo
+  email: you@email.com
+  links:
+    - https://github.com/yourusername
 url: "https://francescogalazzo.github.io"
 
 github:
