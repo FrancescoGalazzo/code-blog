@@ -1,7 +1,7 @@
 ---
 title: "Fibonacci Sequence — Java"
-date: 2026-04-29 08:00:00 -0500
-categories: [Java, Algorithms]
+date: 2026-04-25 08:00:00 -0500
+categories: [Java, DSA]
 tags: [java, recursion, dynamic-programming, easy]
 ---
 
