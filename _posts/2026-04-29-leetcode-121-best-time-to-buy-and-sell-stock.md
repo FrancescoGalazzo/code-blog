@@ -8,17 +8,15 @@ description: A deep dive into the Greedy + Array pattern — intuition, brute fo
 
 ## What Is This Problem Really About?
 
-At first glance you're dealing with stock prices, but that's just the costume.
-What's actually being tested is whether you can look at an O(n²) brute force
-and ask: *"am I doing unnecessary work here?"* — and then eliminate it.
+The formal task is simple: given an array `prices` where `prices[i]` is the stock price on day `i`, choose one day to **buy** and a later day to **sell** to maximize profit. If prices only go down, the answer is `0`.
 
-The array is unsorted, prices go up and down, and you need the best
-buy/sell pair. The naive move is to check every combination. The smart move
-is realizing you never need to look backward more than once: one well-chosen
-variable, updated as you walk forward, carries everything you need.
+But interviewers are not really testing your knowledge of stocks. They want to see if you can look at an O(n²) brute force and ask:
 
-That shift — from re-scanning the past to carrying it forward — is the heart
-of the **Greedy + Array** pattern, and it shows up constantly in interviews.
+> *"Am I doing unnecessary work here, and can I avoid re-scanning the past?"*
+
+The array is unsorted, prices go up and down, and the naive move is to check every buy/sell pair. The key insight is that you never need to look backward more than once: one well-chosen variable, updated as you walk forward, carries everything you need.
+
+That shift — from re-scanning the past to **carrying the best past value forward in O(1)** — is the heart of the **Greedy + Array** pattern, and it shows up constantly in interviews.
 
 ***
 
@@ -27,11 +25,11 @@ of the **Greedy + Array** pattern, and it shows up constantly in interviews.
 | Property | Detail |
 |---|---|
 | **Pattern** | Greedy + Array |
-| **Core goal** | Maximize a value across a sequence in a single pass |
+| **Core goal** | Maximize profit over a sequence in a single pass |
 | **Input** | Unsorted integer array, `n ≤ 10^5` |
 | **Expected complexity** | O(n) time · O(1) space |
 
-> **Constraint rule of thumb:** `n ≤ 10^5` means O(n²) will time-out.
+> **Constraint rule of thumb:** `n ≤ 10^5` means O(n²) will time out.
 > Always target O(n) or O(n log n) for inputs of this size.
 
 ***
@@ -70,12 +68,12 @@ buy day.
 
 This is the **greedy choice property**: making the locally optimal decision at
 each step (always track the cheapest price seen so far) leads to the globally
-optimal solution[1].
+optimal solution.
 
 ### Step-by-step trace
 
-```
-prices = [7, 1, 5, 3, 6, 4]
+```text
+prices =[1][2][3][4][5][6]
 
 Day 0: price=7 → minPrice=7, maxProfit=0
 Day 1: price=1 → minPrice=1, maxProfit=0   ← new minimum found
@@ -99,7 +97,7 @@ class Solution {
 
         for (int price : prices) {
             if (price < minPrice) {
-                minPrice = price;                               // better buy day
+                minPrice = price;                              // better buy day
             } else {
                 maxProfit = Math.max(maxProfit, price - minPrice); // better profit?
             }
@@ -110,8 +108,8 @@ class Solution {
 }
 ```
 
-Two variables. One loop. The inner loop is gone entirely — replaced by a single
-running variable that carries the best past value forward[2].
+Two variables. One loop. The nested loop is gone entirely — replaced by a single
+running variable that carries the best past value forward.
 
 ***
 
@@ -119,19 +117,19 @@ running variable that carries the best past value forward[2].
 
 This four-step process applies to virtually any array optimization problem:
 
-1. **Read constraints first** — `n ≤ 10^5` means immediately discard O(n²)
-2. **State the brute force out loud** — shows structured thinking before optimizing
+1. **Read constraints first** — `n ≤ 10^5` means immediately discard O(n²).
+2. **State the brute force out loud** — shows structured thinking before optimizing.
 3. **Find the redundancy** — ask *"do I really need to re-scan past elements?"*
-4. **Carry state forward** — replace the inner loop with a running variable
+4. **Carry state forward** — replace the inner loop with a running variable.
 
 ### How to spot a Greedy problem
 
 Look for these signals in the problem statement:
 
-- The problem asks to **optimize a single value** (max or min)
-- At each step, there is **one obvious local choice** — no need to explore alternatives
-- The best past value is **trivially updatable in O(1)** (running min, max, sum)
-- Verify: **would reconsidering a past choice ever help?** If no → greedy. If yes → likely DP
+- The problem asks to **optimize a single value** (max or min).
+- At each step, there is **one obvious local choice** — no need to explore alternatives.
+- The best past value is **trivially updatable in O(1)** (running min, max, sum).
+- Verify afterwards: **would reconsidering a past choice ever help?** If no → greedy. If yes → likely DP.
 
 ***
 
@@ -147,7 +145,7 @@ incrementally:
 | `minPrice` so far | Finding the cheapest buy day | LC 121 – Stock Buy & Sell |
 | `maxRunningSum` so far | Finding the best subarray ending here | LC 53 – Maximum Subarray |
 | `maxReach` so far | Finding the farthest reachable index | LC 55 – Jump Game |
-| `runningGas` so far | Finding the net gas balance so far | LC 134 – Gas Station |
+| `runningGas` so far | Tracking the net gas balance so far | LC 134 – Gas Station |
 
 ***
 
